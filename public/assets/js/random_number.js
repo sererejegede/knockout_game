@@ -1,3 +1,8 @@
+const socket = io.connect('http://localhost:4111');
+
+socket.on('chat', (data) => {
+  console.log(data);
+})
 window.onload = () => {
   var app = new Vue({
     el: '#app',
@@ -22,7 +27,7 @@ window.onload = () => {
         playing: false,
         name: 'Player Two'
       },
-      prefix: 'Dice/dice',
+      prefix: 'assets/Dice/dice',
       ext: '.png',
       forbidden_numbers: {
         curr: [],
@@ -31,12 +36,33 @@ window.onload = () => {
       aux_message: '',
       aux_message2: '',
       loading: false,
-      score_to_reach: 1,
+      score_to_reach: 2,
+      num_of_players: 2,
+      room_code: '',
+      generated_room_code: '',
       game_over: false,
       start_date: '2008-12-26',
-      end_date: '2018-12-27'
+      end_date: '2018-12-27',
+      game_joined: false,
+      creating_game: false,
+      code_generated: false,
+      joining_game: false
     },
     methods: {
+      createRoom() {
+        let code = '';
+        for (let i = 0; i < 4; i++) {
+          code += this.generateNumber(10);
+        }
+        this.generated_room_code = code;
+        socket.emit('chat', {
+          code: this.generated_room_code,
+          num_of_players: this.num_of_players
+        });
+      },
+      joinRoom(room_code) {
+
+      },
       generateNumber(rand = 7) {
         let num = Math.floor(Math.random() * Math.floor(rand));
         while (num === 0) {
