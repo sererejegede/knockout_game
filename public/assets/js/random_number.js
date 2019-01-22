@@ -1,9 +1,7 @@
 const socket = io.connect('http://localhost:4111');
 
-socket.on('chat', (data) => {
-  console.log(data);
-})
-window.onload = () => {
+
+// window.onload = () => {
   var app = new Vue({
     el: '#app',
     data: {
@@ -55,13 +53,16 @@ window.onload = () => {
           code += this.generateNumber(10);
         }
         this.generated_room_code = code;
-        socket.emit('chat', {
+        socket.emit('create', {
           code: this.generated_room_code,
           num_of_players: this.num_of_players
         });
       },
       joinRoom(room_code) {
-
+        socket.emit('join', {
+          code: room_code,
+        });
+        socket.on('joined', () => this.game_joined = true);
       },
       generateNumber(rand = 7) {
         let num = Math.floor(Math.random() * Math.floor(rand));
@@ -149,4 +150,4 @@ window.onload = () => {
       this.forbidden_numbers.curr = this.refreshForbiddenNumbers();
     }
   });
-}
+// }

@@ -15,10 +15,10 @@
   <div id="app">
     <div v-if="!game_joined">
       <div class="w3-container">
-        <div class="w3-row w3-display-container" style="margin-top: 50px">
+        <div class="w3-row w3-display-container" style="margin-top: 50px" v-if="!joining_game">
           <div class="w3-col m3 s12">&nbsp;</div>
           <div class="w3-col m3 s12" v-if="!creating_game">
-            <button class="w3-btn w3-aqua" @click="creating_game = true">Create Game</button>
+            <button class="w3-btn w3-aqua" @click="creating_game = true">Create</button>
           </div>
           <div class="w3-col m6 s12 w3-padding-top" v-else>
             <label class="w3-text-teal" for="num_of_players">Number of Players</label>
@@ -29,19 +29,34 @@
               <option value="5">5</option>
               <option value="6">6</option>
             </select>
-            <button class="w3-btn w3-aqua w3-center w3-margin-top" @click="createRoom()">Start Game</button>
           </div>
-          <div class="w3-col m3 s12">Room Code: {{ generated_room_code }}</div>
+        </div>
+        <div class="w3-row display-container">
+          <div class="w3-col m3 s12">&nbsp;</div>
+          <div class="w3-col m6 s12 w3-margin-top" v-if="creating_game">
+            <button class="w3-btn w3-aqua" @click="createRoom()">Start</button>
+          </div>
+        </div>
+        <div class="w3-row w3-display-container" style="margin-top: 50px" v-if="!joining_game && generated_room_code">
+          <div class="w3-col m3 s12">&nbsp;</div>
+          <div class="w3-col m6 s12">Room Code: {{ generated_room_code }}</div>
+          <div class="w3-col m3 s12">&nbsp;</div>
+        </div>
+        <div class="w3-row w3-display-container" style="margin-top: 50px" v-if="!creating_game">
+          <div class="w3-col m3 s12">&nbsp;</div>
+          <div class="w3-col m3 s12" v-if="!joining_game">
+            <button class="w3-btn w3-aqua w3-center" @click="joining_game = true">Join</button>
+          </div>
+          <div class="w3-col m6 s12" v-if="joining_game">
+            <input type="number" class="w3-input w3-border" v-model="room_code" placeholder="Enter Code">
+          </div>
+          <div class="w3-col m3 s12">&nbsp;</div>
         </div>
         <div class="w3-row w3-display-container" style="margin-top: 50px">
           <div class="w3-col m3 s12">&nbsp;</div>
-          <div class="w3-col m3 s12">
-            <button class="w3-btn w3-aqua w3-center">Join Game</button>
+          <div class="w3-col m6 s12 w3-margin-top" v-if="joining_game">
+            <button class="w3-btn w3-aqua" @click="joinRoom(room_code)">Start</button>
           </div>
-          <div class="w3-col m3 s12">
-            <input type="text" class="w3-input w3-border" v-model="room_code" placeholder="Enter Code">
-          </div>
-          <div class="w3-col m3 s12">&nbsp;</div>
         </div>
       </div>
     </div>

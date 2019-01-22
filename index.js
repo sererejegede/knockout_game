@@ -15,8 +15,15 @@ const io = socket(server);
 
 io.on('connection', (socket) => {
   console.log('Socket id is', socket.id);
-  socket.on('chat', (data) => {
+  socket.on('create', (data) => {
     code = data.code;
-    io.sockets.emit('chat', data);
-  })
+  });
+  socket.on('join', (data) => {
+    if (data.code === code) {
+      io.sockets.emit('joined', data);
+      console.log('Game joined');
+    } else {
+      console.log('Nada!');
+    }
+  });
 });
