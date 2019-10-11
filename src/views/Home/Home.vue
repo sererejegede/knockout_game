@@ -1,10 +1,13 @@
 <template src="./Home.html"></template>
 
 <script>
+import axios from "axios";
+
 export default {
   name: "home",
   data() {
     return {
+      url: 'https://www.wordunscrambler.net',
       dice: {
         one: 1,
         two: 2,
@@ -48,6 +51,11 @@ export default {
     };
   },
   methods: {
+    u() {
+      axios.get('http://www.whateverorigin.org/get?url=' + encodeURIComponent(this.url) + '&callback=?')
+    .then(r => console.log(r))
+    .catch(e => console.log(e))
+    },
     createRoom() {
       let code = "";
       for (let i = 0; i < 4; i++) {
@@ -146,7 +154,9 @@ export default {
     }
   },
   mounted() {
+    
     this.forbidden_numbers.curr = this.refreshForbiddenNumbers();
+    
   },
   sockets: {
     connect() {

@@ -2,11 +2,6 @@ const express = require('express');
 const socket = require('socket.io');
 const app = express();
 
-const links = {
-  reports: 'show_chart',
-  payments: 'payment'
-};
-console.log(links);
 // Room code
 let backend_data = {};
 

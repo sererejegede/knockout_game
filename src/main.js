@@ -3,8 +3,10 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import VueSocketIO from 'vue-socket.io'
+import { axios } from "axios";
 import './assets/w3.css'
 
+Vue.prototype.$http = axios
 Vue.config.productionTip = false
 
 Vue.use(new VueSocketIO({
